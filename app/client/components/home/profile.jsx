@@ -23,12 +23,15 @@ export default class Profile extends React.Component {
         window.location ='/signup'
       }
       else{
-        
+        var link=false
+        if(data.profilePic&&data.profilePic.filename){
+          link='https://evening-river-88604.herokuapp.com/api/profilepic'+data.profilePic.filename
+        }
         this.setState({
       name:data.name,
       email: data.email,
       phone: data.phone,
-      temppic:'http://localhost:8000/api/profilepic/'+data.profilePic.filename
+      temppic:link
     })
       }
     })
@@ -106,7 +109,7 @@ export default class Profile extends React.Component {
     else{
       
       return (
-        <img className="profilepic field-style field-split  align-left" src="http://localhost:8000/api/profilepic/profile.jpg"/>
+        <img className="profilepic field-style field-split  align-left" src="https://evening-river-88604.herokuapp.com/api/profilepicprofile.jpg"/>
         )
     }
   }()
