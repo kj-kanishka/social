@@ -170,8 +170,9 @@ acceptreq(data){
     .then( (response) =>{
       var friends=this.state.friends
       var recieved=this.state.recieved
+      var found=false
       for(var i=0;i<friends.length;i++){
-        found=false
+        
         if(friends[i]._id.toString()==data._id.toString()){
 
           found=true
