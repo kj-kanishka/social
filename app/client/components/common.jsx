@@ -3,8 +3,6 @@
 import React from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import  browserHistory from 'react-router';
-
 const cookies = new Cookies();
 
 let all={}
@@ -45,8 +43,7 @@ all.logout=function(){
 	console.log("i am in logout")
 	axios.delete('/api/user/session')
 	    .then(function (response) {
-	    	browserHistory.push('/signup')
-	    	// window.location ='/signup'
+	    	window.location ='/signup'
 	    })
 	    .catch(function (error) {
 	      console.log(error);

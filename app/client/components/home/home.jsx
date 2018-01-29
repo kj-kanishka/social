@@ -7,10 +7,9 @@ import MtSvgLines from 'react-mt-svg-lines';
 import * as auth from './../common.jsx'
 import Header from '../header.jsx';
 //Main component
-import 
-{
-    browserHistory
-} from 'react-router'
+
+import { createHashHistory } from 'history'
+const history = createHashHistory()
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -34,9 +33,11 @@ export default class Home extends React.Component {
       var that=this
       
 
-    auth.isLoggedIn(function(data){
+    auth.isLoggedIn((data)=>{
       if(!data){
-        browserHistory.push('/signup')
+                this.props.history.push('/signup')
+
+        // browserHistory.push('/signup')
         // window.location ='/signup'
       }
       else{
@@ -264,22 +265,22 @@ for(var a=0;a<this.state.unknown.length;a++){
   }
 }
 for(var b=0;b<this.state.friends.length;b++){
-  var name=this.state.unknown[b].name.toLowerCase()
-  var email=this.state.unknown[b].email.toLowerCase()
+  var name=this.state.friends[b].name.toLowerCase()
+  var email=this.state.friends[b].email.toLowerCase()
   if(name.startsWith(value)||email.startsWith(value)){
     friends.push(this.state.friends[b])
   }
 }
 for(var c=0;c<this.state.requested.length;c++){
-  var name=this.state.unknown[c].name.toLowerCase()
-  var email=this.state.unknown[c].email.toLowerCase()
+  var name=this.state.requested[c].name.toLowerCase()
+  var email=this.state.requested[c].email.toLowerCase()
   if(name.startsWith(value)||email.startsWith(value)){
     requested.push(this.state.requested[c])
   }
 }
 for(var d=0;d<this.state.recieved.length;d++){
-  var name=this.state.unknown[d].name.toLowerCase()
-  var email=this.state.unknown[d].email.toLowerCase()
+  var name=this.state.recieved[d].name.toLowerCase()
+  var email=this.state.recieved[d].email.toLowerCase()
   if(name.startsWith(value)||email.startsWith(value)){
     recieved.push(this.state.recieved[d])
   }

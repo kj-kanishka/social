@@ -24292,7 +24292,7 @@
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _footer = __webpack_require__(247);
+	var _footer = __webpack_require__(248);
 
 	var _footer2 = _interopRequireDefault(_footer);
 
@@ -26462,6 +26462,8 @@
 
 	var _header2 = _interopRequireDefault(_header);
 
+	var _history = __webpack_require__(197);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -26471,8 +26473,10 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 	//Main component
+
+	var history = (0, _history.createHashHistory)();
+
 	var Home = function (_React$Component) {
 	  _inherits(Home, _React$Component);
 
@@ -26499,7 +26503,10 @@
 
 	    auth.isLoggedIn(function (data) {
 	      if (!data) {
-	        window.location = '/signup';
+	        _this.props.history.push('/signup');
+
+	        // browserHistory.push('/signup')
+	        // window.location ='/signup'
 	      } else {
 	        that.loadData();
 	      }
@@ -26553,20 +26560,31 @@
 	        var requested = _this3.state.requested;
 	        var unknown = _this3.state.unknown;
 	        var recieved = _this3.state.recieved;
-	        unknown.push(data);
 	        var found = false;
-	        for (var i = 0; i < requested.length; i++) {
-	          if (requested[i]._id == data._id) {
-	            requested.splice(i, 1);
+	        for (var i = 0; i < unknown.length; i++) {
+
+	          if (unknown[i]._id.toString() == data._id.toString()) {
 	            found = true;
 	            break;
 	          }
 	        }
 	        if (!found) {
+
+	          unknown.push(data);
+	        }
+	        var foundid = false;
+	        for (var i = 0; i < requested.length; i++) {
+	          if (requested[i]._id == data._id) {
+	            requested.splice(i, 1);
+	            foundid = true;
+	            break;
+	          }
+	        }
+	        if (!foundid) {
 	          for (var i = 0; i < recieved.length; i++) {
 	            if (recieved[i]._id == data._id) {
 	              recieved.splice(i, 1);
-	              found = true;
+	              foundid = true;
 	              break;
 	            }
 	          }
@@ -26591,7 +26609,18 @@
 	      }).then(function (response) {
 	        var friends = _this4.state.friends;
 	        var unknown = _this4.state.unknown;
-	        unknown.push(data);
+	        var found = false;
+	        for (var i = 0; i < unknown.length; i++) {
+
+	          if (unknown[i]._id.toString() == data._id.toString()) {
+	            found = true;
+	            break;
+	          }
+	        }
+	        if (!found) {
+
+	          unknown.push(data);
+	        }
 	        for (var i = 0; i < friends.length; i++) {
 	          if (friends[i]._id == data._id) {
 	            friends.splice(i, 1);
@@ -26617,7 +26646,19 @@
 	      }).then(function (response) {
 	        var friends = _this5.state.friends;
 	        var recieved = _this5.state.recieved;
-	        friends.push(data);
+	        var found = false;
+	        for (var i = 0; i < friends.length; i++) {
+
+	          if (friends[i]._id.toString() == data._id.toString()) {
+
+	            found = true;
+	            break;
+	          }
+	        }
+	        if (!found) {
+
+	          friends.push(data);
+	        }
 	        for (var i = 0; i < recieved.length; i++) {
 	          if (recieved[i]._id == data._id) {
 	            recieved.splice(i, 1);
@@ -26643,7 +26684,18 @@
 	      }).then(function (response) {
 	        var requested = _this6.state.requested;
 	        var unknown = _this6.state.unknown;
-	        requested.push(data);
+	        var found = false;
+	        for (var i = 0; i < requested.length; i++) {
+
+	          if (requested[i]._id.toString() == data._id.toString()) {
+	            found = true;
+	            break;
+	          }
+	        }
+	        if (!found) {
+
+	          requested.push(data);
+	        }
 	        for (var i = 0; i < unknown.length; i++) {
 	          if (unknown[i]._id == data._id) {
 	            unknown.splice(i, 1);
@@ -26661,8 +26713,8 @@
 	  }, {
 	    key: 'handlesearch',
 	    value: function handlesearch(evet) {
-	      console.log("evet", evet.target.value);
-	      var value = evet.target.value;
+	      var value = evet.target.value.toLowerCase();
+	      console.log("value", value);
 	      if (value) {
 	        var friends = [],
 	            requested = [],
@@ -26670,22 +26722,32 @@
 	            unknown = [];
 	        for (var a = 0; a < this.state.unknown.length; a++) {
 	          console.log("a", unknown[a]);
-	          if (this.state.unknown[a].name.startsWith(value) || this.state.unknown[a].email.startsWith(value)) {
+	          var name = this.state.unknown[a].name.toLowerCase();
+	          console.log("name", name);
+	          var email = this.state.unknown[a].email.toLowerCase();
+	          console.log("email", email);
+	          if (name.startsWith(value) || email.startsWith(value)) {
 	            unknown.push(this.state.unknown[a]);
 	          }
 	        }
 	        for (var b = 0; b < this.state.friends.length; b++) {
-	          if (this.state.friends[b].name.startsWith(value) || this.state.friends[b].email.startsWith(value)) {
+	          var name = this.state.friends[b].name.toLowerCase();
+	          var email = this.state.friends[b].email.toLowerCase();
+	          if (name.startsWith(value) || email.startsWith(value)) {
 	            friends.push(this.state.friends[b]);
 	          }
 	        }
 	        for (var c = 0; c < this.state.requested.length; c++) {
-	          if (this.state.requested[c].name.startsWith(value) || this.state.requested[c].email.startsWith(value)) {
+	          var name = this.state.requested[c].name.toLowerCase();
+	          var email = this.state.requested[c].email.toLowerCase();
+	          if (name.startsWith(value) || email.startsWith(value)) {
 	            requested.push(this.state.requested[c]);
 	          }
 	        }
 	        for (var d = 0; d < this.state.recieved.length; d++) {
-	          if (this.state.recieved[d].name.startsWith(value) || this.state.recieved[d].email.startsWith(value)) {
+	          var name = this.state.recieved[d].name.toLowerCase();
+	          var email = this.state.recieved[d].email.toLowerCase();
+	          if (name.startsWith(value) || email.startsWith(value)) {
 	            recieved.push(this.state.recieved[d]);
 	          }
 	        }
@@ -26727,13 +26789,13 @@
 	              function () {
 	                var link = false;
 	                if (data.profilePic && data.profilePic.filename) {
-	                  link = 'http://localhost:8000/api/profilepic/' + data.profilePic.filename;
+	                  link = 'https://evening-river-88604.herokuapp.com/api/profilepic/' + data.profilePic.filename;
 	                }
 
 	                if (link) {
 	                  return _react2.default.createElement('img', { className: 'dp ', src: link });
 	                } else {
-	                  return _react2.default.createElement('img', { className: 'dp ', src: 'http://localhost:8000/api/profilepic/profile.jpg' });
+	                  return _react2.default.createElement('img', { className: 'dp ', src: 'https://evening-river-88604.herokuapp.com/api/profilepic/profile.jpg' });
 	                }
 	              }(),
 	              _react2.default.createElement(
@@ -26778,12 +26840,12 @@
 	                  function () {
 	                    var link = false;
 	                    if (data.profilePic && data.profilePic.filename) {
-	                      link = 'http://localhost:8000/api/profilepic/' + data.profilePic.filename;
+	                      link = 'https://evening-river-88604.herokuapp.com/api/profilepic/' + data.profilePic.filename;
 	                    }
 	                    if (link) {
 	                      return _react2.default.createElement('img', { className: 'dp ', src: link });
 	                    } else {
-	                      return _react2.default.createElement('img', { className: 'dp ', src: 'http://localhost:8000/api/profilepic/profile.jpg' });
+	                      return _react2.default.createElement('img', { className: 'dp ', src: 'https://evening-river-88604.herokuapp.com/api/profilepic/profile.jpg' });
 	                    }
 	                  }(),
 	                  _react2.default.createElement(
@@ -26824,13 +26886,13 @@
 	                  function () {
 	                    var link = false;
 	                    if (data.profilePic && data.profilePic.filename) {
-	                      link = 'http://localhost:8000/api/profilepic/' + data.profilePic.filename;
+	                      link = 'https://evening-river-88604.herokuapp.com/api/profilepic/' + data.profilePic.filename;
 	                    }
 
 	                    if (link) {
 	                      return _react2.default.createElement('img', { className: 'dp ', src: link });
 	                    } else {
-	                      return _react2.default.createElement('img', { className: 'dp ', src: 'http://localhost:8000/api/profilepic/profile.jpg' });
+	                      return _react2.default.createElement('img', { className: 'dp ', src: 'https://evening-river-88604.herokuapp.com/api/profilepic/profile.jpg' });
 	                    }
 	                  }(),
 	                  _react2.default.createElement(
@@ -26872,7 +26934,7 @@
 	              that.state.unknown.map(function (data) {
 	                var link = false;
 	                if (data.profilePic && data.profilePic.filename) {
-	                  link = 'http://localhost:8000/api/profilepic/' + data.profilePic.filename;
+	                  link = 'https://evening-river-88604.herokuapp.com/api/profilepic/' + data.profilePic.filename;
 	                }
 	                return _react2.default.createElement(
 	                  'div',
@@ -26881,7 +26943,7 @@
 	                    if (link) {
 	                      return _react2.default.createElement('img', { className: 'dp ', src: link });
 	                    } else {
-	                      return _react2.default.createElement('img', { className: 'dp ', src: 'http://localhost:8000/api/profilepic/profile.jpg' });
+	                      return _react2.default.createElement('img', { className: 'dp ', src: 'https://evening-river-88604.herokuapp.com/api/profilepic/profile.jpg' });
 	                    }
 	                  }(),
 	                  _react2.default.createElement(
@@ -28317,6 +28379,8 @@
 
 	var auth = _interopRequireWildcard(_common);
 
+	var _history = __webpack_require__(197);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -28327,7 +28391,10 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var history = (0, _history.createHashHistory)();
+
 	//Login component
+
 	var Login = function (_React$Component) {
 	  _inherits(Login, _React$Component);
 
@@ -28336,7 +28403,7 @@
 
 	    auth.isLoggedIn(function (data) {
 	      if (data) {
-	        window.location = '/home';
+	        _this.props.history.push('/home');
 	      }
 	    });
 
@@ -28353,6 +28420,8 @@
 	  _createClass(Login, [{
 	    key: 'submitLogin',
 	    value: function submitLogin(e) {
+	      var _this2 = this;
+
 	      e.preventDefault();
 	      var that = this;
 	      console.log("this.state.", this.state.password);
@@ -28364,7 +28433,7 @@
 	        auth.setheader(response.data.data.token);
 
 	        console.log("here>>", _axios2.default.defaults.headers);
-	        window.location = '/';
+	        _this2.props.history.push('/');
 	      }).catch(function (error) {
 	        console.log(error);
 	      });
@@ -28372,7 +28441,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      console.log('============>login');
 	      return _react2.default.createElement(
@@ -28385,14 +28454,14 @@
 	            'li',
 	            null,
 	            _react2.default.createElement('input', { type: 'text', name: 'field1', onChange: function onChange(e) {
-	                return _this2.setState({ email: e.target.value });
+	                return _this3.setState({ email: e.target.value });
 	              }, className: 'field-style field-full align-none', placeholder: 'Email' })
 	          ),
 	          _react2.default.createElement(
 	            'li',
 	            null,
 	            _react2.default.createElement('input', { type: 'password', name: 'field2', onChange: function onChange(e) {
-	                return _this2.setState({ password: e.target.value });
+	                return _this3.setState({ password: e.target.value });
 	              }, className: 'field-style field-full align-none', placeholder: 'password' })
 	          ),
 	          _react2.default.createElement(
@@ -28445,6 +28514,8 @@
 
 	var auth = _interopRequireWildcard(_common);
 
+	var _history = __webpack_require__(197);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -28455,7 +28526,10 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var history = (0, _history.createHashHistory)();
+
 	//Signup component
+
 	var Signup = function (_React$Component) {
 	  _inherits(Signup, _React$Component);
 
@@ -28466,7 +28540,7 @@
 
 	    auth.isLoggedIn(function (data) {
 	      if (data) {
-	        window.location = '/';
+	        _this.props.history.push('/');
 	      }
 	    });
 	    _this.state = {
@@ -28482,6 +28556,8 @@
 	  _createClass(Signup, [{
 	    key: 'submitSignup',
 	    value: function submitSignup(e) {
+	      var _this2 = this;
+
 	      console.log("hi i am here", e);
 	      e.preventDefault();
 	      var that = this;
@@ -28495,7 +28571,7 @@
 	        auth.setheader(response.data.data.token);
 
 	        console.log("here>>", _axios2.default.defaults.headers);
-	        window.location = '/';
+	        _this2.props.history.push('/');
 	      }).catch(function (error) {
 	        console.log(error);
 	      });
@@ -28503,7 +28579,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      return _react2.default.createElement(
 	        'form',
@@ -28515,24 +28591,24 @@
 	            'li',
 	            null,
 	            _react2.default.createElement('input', { type: 'text', name: 'field1', onChange: function onChange(e) {
-	                return _this2.setState({ name: e.target.value });
+	                return _this3.setState({ name: e.target.value });
 	              }, className: 'field-style field-split align-left', placeholder: 'Name' }),
 	            _react2.default.createElement('input', { type: 'email', name: 'field2', onChange: function onChange(e) {
-	                return _this2.setState({ email: e.target.value });
+	                return _this3.setState({ email: e.target.value });
 	              }, className: 'field-style field-split align-right', placeholder: 'Email' })
 	          ),
 	          _react2.default.createElement(
 	            'li',
 	            null,
 	            _react2.default.createElement('input', { type: 'text', name: 'field3', onChange: function onChange(e) {
-	                return _this2.setState({ phone: e.target.value });
+	                return _this3.setState({ phone: e.target.value });
 	              }, className: 'field-style field-split align-left', placeholder: 'Phone' })
 	          ),
 	          _react2.default.createElement(
 	            'li',
 	            null,
 	            _react2.default.createElement('input', { type: 'password', name: 'field3', onChange: function onChange(e) {
-	                return _this2.setState({ password: e.target.value });
+	                return _this3.setState({ password: e.target.value });
 	              }, className: 'field-style field-full align-none', placeholder: 'Password' })
 	          ),
 	          _react2.default.createElement(
@@ -28593,6 +28669,10 @@
 
 	var _header2 = _interopRequireDefault(_header);
 
+	var _reactRouter = __webpack_require__(247);
+
+	var _history = __webpack_require__(197);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -28603,7 +28683,10 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var history = (0, _history.createHashHistory)();
+
 	//Main component
+
 	var Profile = function (_React$Component) {
 	  _inherits(Profile, _React$Component);
 
@@ -28622,14 +28705,21 @@
 
 	    auth.isLoggedIn(function (data) {
 	      if (!data) {
-	        window.location = '/signup';
-	      } else {
+	        console.log("this", _this);
+	        _this.props.history.push('/signup');
 
+	        // browserHistory.push('/signup')
+	        // window.location ='/signup'
+	      } else {
+	        var link = false;
+	        if (data.profilePic && data.profilePic.filename) {
+	          link = 'https://evening-river-88604.herokuapp.com/api/profilepic/' + data.profilePic.filename;
+	        }
 	        _this.setState({
 	          name: data.name,
 	          email: data.email,
 	          phone: data.phone,
-	          temppic: 'http://localhost:8000/api/profilepic/' + data.profilePic.filename
+	          temppic: link
 	        });
 	      }
 	    });
@@ -28683,6 +28773,10 @@
 
 	      _axios2.default.put('/api/user/', formData, config).then(function (response) {
 	        console.log("response", response);
+	        this.props.history.push('/signup');
+
+	        // browserHistory.push('/')
+	        // window.location ='/'
 	      }).catch(function (error) {
 	        console.log(error);
 	      });
@@ -28715,7 +28809,7 @@
 	                  return _react2.default.createElement('img', { className: 'profilepic field-style field-split  align-left', src: that.state.temppic });
 	                } else {
 
-	                  return _react2.default.createElement('img', { className: 'profilepic field-style field-split  align-left', src: 'http://localhost:8000/api/profilepic/profile.jpg' });
+	                  return _react2.default.createElement('img', { className: 'profilepic field-style field-split  align-left', src: 'https://evening-river-88604.herokuapp.com/api/profilepic/profile.jpg' });
 	                }
 	              }(),
 	              _react2.default.createElement('input', { type: 'file', name: 'profilePic', id: 'profilePic', className: 'profilepic field-style field-split  align-right', onChange: this.handleChange, placeholder: 'Change Picture' })
@@ -28775,6 +28869,63 @@
 
 /***/ }),
 /* 247 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.withRouter = exports.matchPath = exports.Switch = exports.StaticRouter = exports.Router = exports.Route = exports.Redirect = exports.Prompt = exports.MemoryRouter = undefined;
+
+	var _MemoryRouter2 = __webpack_require__(159);
+
+	var _MemoryRouter3 = _interopRequireDefault(_MemoryRouter2);
+
+	var _Prompt2 = __webpack_require__(194);
+
+	var _Prompt3 = _interopRequireDefault(_Prompt2);
+
+	var _Redirect2 = __webpack_require__(196);
+
+	var _Redirect3 = _interopRequireDefault(_Redirect2);
+
+	var _Route2 = __webpack_require__(189);
+
+	var _Route3 = _interopRequireDefault(_Route2);
+
+	var _Router2 = __webpack_require__(176);
+
+	var _Router3 = _interopRequireDefault(_Router2);
+
+	var _StaticRouter2 = __webpack_require__(199);
+
+	var _StaticRouter3 = _interopRequireDefault(_StaticRouter2);
+
+	var _Switch2 = __webpack_require__(201);
+
+	var _Switch3 = _interopRequireDefault(_Switch2);
+
+	var _matchPath2 = __webpack_require__(190);
+
+	var _matchPath3 = _interopRequireDefault(_matchPath2);
+
+	var _withRouter2 = __webpack_require__(204);
+
+	var _withRouter3 = _interopRequireDefault(_withRouter2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.MemoryRouter = _MemoryRouter3.default;
+	exports.Prompt = _Prompt3.default;
+	exports.Redirect = _Redirect3.default;
+	exports.Route = _Route3.default;
+	exports.Router = _Router3.default;
+	exports.StaticRouter = _StaticRouter3.default;
+	exports.Switch = _Switch3.default;
+	exports.matchPath = _matchPath3.default;
+	exports.withRouter = _withRouter3.default;
+
+/***/ }),
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';

@@ -10,6 +10,9 @@ import
 {
     browserHistory
 } from 'react-router'
+import { createHashHistory } from 'history'
+const history = createHashHistory()
+
 //Main component
 export default class Profile extends React.Component {
   constructor() {
@@ -24,7 +27,10 @@ export default class Profile extends React.Component {
 
     auth.isLoggedIn((data)=>{
       if(!data){
-        browserHistory.push('/signup')
+        console.log("this",this)
+                this.props.history.push('/signup')
+
+        // browserHistory.push('/signup')
         // window.location ='/signup'
       }
       else{
@@ -85,7 +91,9 @@ export default class Profile extends React.Component {
     axios.put('/api/user/',formData,config)
     .then(function (response) {
       console.log("response",response)
-      browserHistory.push('/')
+              this.props.history.push('/signup')
+
+      // browserHistory.push('/')
     // window.location ='/'
     })
     .catch(function (error) {

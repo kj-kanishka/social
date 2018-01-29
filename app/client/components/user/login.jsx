@@ -3,13 +3,16 @@
 import React from 'react';
 import axios from 'axios';
 import * as auth from './../common.jsx'
+import { createHashHistory } from 'history'
+const history = createHashHistory()
 
 //Login component
 export default class Login extends React.Component {
   constructor() {
-    auth.isLoggedIn(function(data){
+    auth.isLoggedIn((data)=>{
       if(data){
-        window.location ='/home'
+                        this.props.history.push('/home')
+
       }
     })
     super();
@@ -28,12 +31,13 @@ export default class Login extends React.Component {
         email: this.state.email,
         password: this.state.password
     })
-    .then(function (response) {
+    .then( (response) =>{
       console.log("response",response)
       auth.setheader(response.data.data.token)
       
       console.log("here>>",axios.defaults.headers)
-        window.location ='/'
+                      this.props.history.push('/')
+
     })
     .catch(function (error) {
       console.log(error);
