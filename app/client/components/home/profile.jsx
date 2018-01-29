@@ -80,7 +80,7 @@ export default class Profile extends React.Component {
     axios.put('/api/user/',formData,config)
     .then(function (response) {
       console.log("response",response)
-    
+    window.location ='/'
     })
     .catch(function (error) {
       console.log(error);
