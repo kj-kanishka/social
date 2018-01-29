@@ -257,7 +257,7 @@ else{
           function(){
         var link=false
         if(data.profilePic&&data.profilePic.filename){
-        link= 'http://localhost:8000/api/profilepic/'+data.profilePic.filename
+        link= 'https://evening-river-88604.herokuapp.com/api/profilepic/'+data.profilePic.filename
     }
         
           
@@ -268,7 +268,7 @@ else{
             }
             else{
               return(
-              <img className="dp " src="http://localhost:8000/api/profilepic/profile.jpg"/>
+              <img className="dp " src="https://evening-river-88604.herokuapp.com/api/profilepic/profile.jpg"/>
             )
             }
           }()
@@ -299,7 +299,7 @@ else{
           function(){
         var link=false
         if(data.profilePic&&data.profilePic.filename){
-        link= 'http://localhost:8000/api/profilepic/'+data.profilePic.filename
+        link= 'https://evening-river-88604.herokuapp.com/api/profilepic/'+data.profilePic.filename
     
         }
             if(link){
@@ -309,7 +309,7 @@ else{
             }
             else{
               return(
-              <img className="dp " src="http://localhost:8000/api/profilepic/profile.jpg"/>
+              <img className="dp " src="https://evening-river-88604.herokuapp.com/api/profilepic/profile.jpg"/>
               )
             }
           }()
@@ -337,7 +337,7 @@ else{
           function(){
         var link=false
         if(data.profilePic&&data.profilePic.filename){
-        link= 'http://localhost:8000/api/profilepic/'+data.profilePic.filename
+        link= 'https://evening-river-88604.herokuapp.com/api/profilepic/'+data.profilePic.filename
     }
         
             if(link){
@@ -347,7 +347,7 @@ else{
             }
             else{
               return(
-              <img className="dp " src="http://localhost:8000/api/profilepic/profile.jpg"/>
+              <img className="dp " src="https://evening-river-88604.herokuapp.com/api/profilepic/profile.jpg"/>
            )
             }
           }()
@@ -373,7 +373,7 @@ else{
       that.state.unknown.map(function(data){
         var link=false
         if(data.profilePic&&data.profilePic.filename){
-        link= 'http://localhost:8000/api/profilepic/'+data.profilePic.filename
+        link= 'https://evening-river-88604.herokuapp.com/api/profilepic/'+data.profilePic.filename
     }
         return (<div className="mycards">
           {
@@ -385,7 +385,7 @@ else{
             }
             else{
               return(
-              <img className="dp " src="http://localhost:8000/api/profilepic/profile.jpg"/>
+              <img className="dp " src="https://evening-river-88604.herokuapp.com/api/profilepic/profile.jpg"/>
             )
             }
           }()
