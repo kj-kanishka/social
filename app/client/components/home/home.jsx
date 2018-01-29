@@ -7,6 +7,11 @@ import MtSvgLines from 'react-mt-svg-lines';
 import * as auth from './../common.jsx'
 import Header from '../header.jsx';
 //Main component
+import 
+{
+    browserHistory
+} from 'react-router'
+
 export default class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -31,7 +36,8 @@ export default class Home extends React.Component {
 
     auth.isLoggedIn(function(data){
       if(!data){
-        window.location ='/signup'
+        browserHistory.push('/signup')
+        // window.location ='/signup'
       }
       else{
         that.loadData()
@@ -133,8 +139,9 @@ unfriend(data){
     .then( (response) =>{
       var friends=this.state.friends
       var unknown=this.state.unknown
+      var found=false
       for(var i=0;i<unknown.length;i++){
-        found=false
+        
         if(unknown[i]._id.toString()==data._id.toString()){
           found=true
           break
@@ -239,8 +246,8 @@ acceptreq(data){
     });
  }
 handlesearch(evet){
-  console.log("evet",evet.target.value)
   var value=evet.target.value.toLowerCase()
+  console.log("value",value)
   if(value){
 var friends=[],
 requested=[],
@@ -249,7 +256,9 @@ unknown=[]
 for(var a=0;a<this.state.unknown.length;a++){
   console.log("a",unknown[a])
   var name=this.state.unknown[a].name.toLowerCase()
+  console.log("name",name)
   var email=this.state.unknown[a].email.toLowerCase()
+  console.log("email",email)
   if(name.startsWith(value)||email.startsWith(value)){
     unknown.push(this.state.unknown[a])
   }

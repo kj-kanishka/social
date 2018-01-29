@@ -6,6 +6,10 @@ import axios from 'axios';
 import MtSvgLines from 'react-mt-svg-lines';
 import * as auth from './../common.jsx'
 import Header from '../header.jsx';
+import 
+{
+    browserHistory
+} from 'react-router'
 //Main component
 export default class Profile extends React.Component {
   constructor() {
@@ -20,7 +24,8 @@ export default class Profile extends React.Component {
 
     auth.isLoggedIn((data)=>{
       if(!data){
-        window.location ='/signup'
+        browserHistory.push('/signup')
+        // window.location ='/signup'
       }
       else{
         var link=false
@@ -80,7 +85,8 @@ export default class Profile extends React.Component {
     axios.put('/api/user/',formData,config)
     .then(function (response) {
       console.log("response",response)
-    window.location ='/'
+      browserHistory.push('/')
+    // window.location ='/'
     })
     .catch(function (error) {
       console.log(error);
