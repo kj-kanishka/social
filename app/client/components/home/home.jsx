@@ -83,8 +83,9 @@ axios.put('/api/addfriends', {
       var requested=this.state.requested
       var unknown=this.state.unknown
       var recieved=this.state.recieved
+      var found=false
       for(var i=0;i<unknown.length;i++){
-        found=false
+        
         if(unknown[i]._id.toString()==data._id.toString()){
           found=true
           break
@@ -94,21 +95,21 @@ axios.put('/api/addfriends', {
 
       unknown.push(data)
     }
-      var found=false
+      var foundid=false
       for(var i=0;i<requested.length;i++){
         if(requested[i]._id==data._id)
         {
           requested.splice(i,1)
-          found=true
+          foundid=true
           break
         }
       }
-      if(!found){
+      if(!foundid){
         for(var i=0;i<recieved.length;i++){
         if(recieved[i]._id==data._id)
         {
           recieved.splice(i,1)
-          found=true
+          foundid=true
           break
         }
       }
@@ -172,6 +173,7 @@ acceptreq(data){
       for(var i=0;i<friends.length;i++){
         found=false
         if(friends[i]._id.toString()==data._id.toString()){
+
           found=true
           break
         }
@@ -206,8 +208,9 @@ acceptreq(data){
     .then( (response) =>{
       var requested=this.state.requested
       var unknown=this.state.unknown
+      var found=false
       for(var i=0;i<requested.length;i++){
-        found=false
+        
         if(requested[i]._id.toString()==data._id.toString()){
           found=true
           break
@@ -236,7 +239,7 @@ acceptreq(data){
  }
 handlesearch(evet){
   console.log("evet",evet.target.value)
-  var value=evet.target.value
+  var value=evet.target.value.toLowerCase()
   if(value){
 var friends=[],
 requested=[],
@@ -244,22 +247,30 @@ recieved=[],
 unknown=[]
 for(var a=0;a<this.state.unknown.length;a++){
   console.log("a",unknown[a])
-  if(this.state.unknown[a].name.startsWith(value)||this.state.unknown[a].email.startsWith(value)){
+  var name=this.state.unknown[a].name.toLowerCase()
+  var email=this.state.unknown[a].email.toLowerCase()
+  if(name.startsWith(value)||email.startsWith(value)){
     unknown.push(this.state.unknown[a])
   }
 }
 for(var b=0;b<this.state.friends.length;b++){
-  if(this.state.friends[b].name.startsWith(value)||this.state.friends[b].email.startsWith(value)){
+  var name=this.state.unknown[b].name.toLowerCase()
+  var email=this.state.unknown[b].email.toLowerCase()
+  if(name.startsWith(value)||email.startsWith(value)){
     friends.push(this.state.friends[b])
   }
 }
 for(var c=0;c<this.state.requested.length;c++){
-  if(this.state.requested[c].name.startsWith(value)||this.state.requested[c].email.startsWith(value)){
+  var name=this.state.unknown[c].name.toLowerCase()
+  var email=this.state.unknown[c].email.toLowerCase()
+  if(name.startsWith(value)||email.startsWith(value)){
     requested.push(this.state.requested[c])
   }
 }
 for(var d=0;d<this.state.recieved.length;d++){
-  if(this.state.recieved[d].name.startsWith(value)||this.state.recieved[d].email.startsWith(value)){
+  var name=this.state.unknown[d].name.toLowerCase()
+  var email=this.state.unknown[d].email.toLowerCase()
+  if(name.startsWith(value)||email.startsWith(value)){
     recieved.push(this.state.recieved[d])
   }
 }
