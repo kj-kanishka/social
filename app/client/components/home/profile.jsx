@@ -25,7 +25,7 @@ export default class Profile extends React.Component {
       else{
         var link=false
         if(data.profilePic&&data.profilePic.filename){
-          link='https://evening-river-88604.herokuapp.com/api/profilepic'+data.profilePic.filename
+          link='https://evening-river-88604.herokuapp.com/api/profilepic/'+data.profilePic.filename
         }
         this.setState({
       name:data.name,
@@ -109,7 +109,7 @@ export default class Profile extends React.Component {
     else{
       
       return (
-        <img className="profilepic field-style field-split  align-left" src="https://evening-river-88604.herokuapp.com/api/profilepicprofile.jpg"/>
+        <img className="profilepic field-style field-split  align-left" src="https://evening-river-88604.herokuapp.com/api/profilepic/profile.jpg"/>
         )
     }
   }()
