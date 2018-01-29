@@ -28381,6 +28381,8 @@
 
 	var _history = __webpack_require__(197);
 
+	var _reactRouterDom = __webpack_require__(178);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -28473,8 +28475,8 @@
 	              null,
 	              'New User ??  ',
 	              _react2.default.createElement(
-	                'a',
-	                { href: '\\signup' },
+	                _reactRouterDom.Link,
+	                { to: '/signup' },
 	                'Create an account'
 	              )
 	            )
@@ -28515,6 +28517,8 @@
 	var auth = _interopRequireWildcard(_common);
 
 	var _history = __webpack_require__(197);
+
+	var _reactRouterDom = __webpack_require__(178);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -28620,8 +28624,8 @@
 	              null,
 	              ' Already have account? ',
 	              _react2.default.createElement(
-	                'a',
-	                { href: '\\login' },
+	                _reactRouterDom.Link,
+	                { to: '/login' },
 	                'Login'
 	              )
 	            )

@@ -4,6 +4,8 @@ import React from 'react';
 import axios from 'axios';
 import * as auth from './../common.jsx'
 import { createHashHistory } from 'history'
+import { Link } from 'react-router-dom';
+
 const history = createHashHistory()
 
 //Signup component
@@ -66,7 +68,7 @@ export default class Signup extends React.Component {
 
 <li>
 <input type="submit" onClick={this.submitSignup} value="Sign Up" />
-<font> Already have account? <a href='\login'>Login</a></font>
+<font> Already have account? <Link to="/login">Login</Link></font>
 </li>
 </ul>
 </form>
