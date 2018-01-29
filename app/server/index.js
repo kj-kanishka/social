@@ -25,7 +25,13 @@ let connect = function() {
 			}
 		}
 	};
-	mongoose.connect("mongodb://localhost/myusers", options);
+	//
+	if(process.env.NODE_ENV === 'test'){
+		mongoose.connect("mongodb://localhost/myusers", options);	
+	} else{
+		mongoose.connect("mongodb://dbuser:dbpassword@ds119018.mlab.com:19018/socialnetwork", options);
+	}
+	
 };
 connect();
 
