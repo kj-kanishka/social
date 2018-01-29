@@ -88,6 +88,6 @@ app.get('*', (req, res) => {
 });
 
 //server connects to localhost at port 3000
-let server=app.listen(8000, function () {
+let server=app.listen((process.env.PORT || 8000), function () {
   console.log("Server connect at port:8000")
 });
