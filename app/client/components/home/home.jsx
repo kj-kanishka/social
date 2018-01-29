@@ -83,7 +83,17 @@ axios.put('/api/addfriends', {
       var requested=this.state.requested
       var unknown=this.state.unknown
       var recieved=this.state.recieved
+      for(var i=0;i<unknown.length;i++){
+        found=false
+        if(unknown[i]._id.toString()==data._id.toString()){
+          found=true
+          break
+        }
+      }
+      if(!found){
+
       unknown.push(data)
+    }
       var found=false
       for(var i=0;i<requested.length;i++){
         if(requested[i]._id==data._id)
@@ -122,7 +132,17 @@ unfriend(data){
     .then( (response) =>{
       var friends=this.state.friends
       var unknown=this.state.unknown
+      for(var i=0;i<unknown.length;i++){
+        found=false
+        if(unknown[i]._id.toString()==data._id.toString()){
+          found=true
+          break
+        }
+      }
+      if(!found){
+
       unknown.push(data)
+    }
       for(var i=0;i<friends.length;i++){
         if(friends[i]._id==data._id)
         {
@@ -149,7 +169,17 @@ acceptreq(data){
     .then( (response) =>{
       var friends=this.state.friends
       var recieved=this.state.recieved
+      for(var i=0;i<friends.length;i++){
+        found=false
+        if(friends[i]._id.toString()==data._id.toString()){
+          found=true
+          break
+        }
+      }
+      if(!found){
+
       friends.push(data)
+    }
       for(var i=0;i<recieved.length;i++){
         if(recieved[i]._id==data._id)
         {
@@ -176,7 +206,17 @@ acceptreq(data){
     .then( (response) =>{
       var requested=this.state.requested
       var unknown=this.state.unknown
+      for(var i=0;i<requested.length;i++){
+        found=false
+        if(requested[i]._id.toString()==data._id.toString()){
+          found=true
+          break
+        }
+      }
+      if(!found){
+
       requested.push(data)
+    }
       for(var i=0;i<unknown.length;i++){
         if(unknown[i]._id==data._id)
         {
